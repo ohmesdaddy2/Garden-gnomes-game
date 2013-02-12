@@ -22,13 +22,8 @@ int main(int argc, char** argv) {
 	while(SDL_PollEvent(&event)){
 	    short key = wrapper::keystroke(event);
 	    std::cout<<key<<"\n";
-	    switch (key){
-		case 27: done = true; break;
-		default: break;
-	    }
-	}
+        }
     }
-    
     
     return 0;
 }
