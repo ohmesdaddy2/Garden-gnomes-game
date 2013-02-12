@@ -36,11 +36,11 @@ namespace wrapper{
     }
     
     void rotate_image(std::string file){
-        
+        ;
     }
     
     void crop_image(/*isnsert parameters here*/){
-        
+        ;
     }
     
     short keystroke(SDL_Event event){
