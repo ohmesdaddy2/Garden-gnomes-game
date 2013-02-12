@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
     while (!done){
 	while(SDL_PollEvent(&event)){
 	    short key = wrapper::keystroke(event);
-	    std::cout<<key<<"\n";
+	    
         }
     }
     
