@@ -12,7 +12,7 @@
 
 //clicker is for the menu buttons
 
-class cliker{
+class clicker{
     short x, y, w, h;
     std::string label;
     SDL_Color label_color;
@@ -60,13 +60,70 @@ public:
 	label_color.b = b;
     }
     
+    bool select(wrapper::pointer z){
+        if (z.x > x && z.x < w && z.y > y && z.y < h){
+            return true;
+        }
+        else return false;
+    }
+    
     void draw(SDL_Surface* a){
-	boxRGBA(a, x, y, w, h, background.r, background.g, background.b);
-	wrapper::Draw_Text(a, label_color, label, 15, x + 5, y + 5);
+	boxRGBA(a, x, y, w, h, background.r, background.g, background.b, 255);
+	//wrapper::Draw_Text(a, label_color, label, 15, x + 5, y + 5);
     }
     
 };
 
+class opening{
+    clicker button[2];
+    
+public:
+    opening(){
+        button[0].place_button(100, 500);
+        button[0].size_button(60, 30);
+        button[0].label_button("Start");
+        button[0].set_background(128, 64, 0);
+        button[1].place_button(180, 500);
+        button[1].size_button(60, 30);
+        button[1].label_button("Quit");
+        button[1].set_background(128, 64, 0);
+    }
+    
+    short select(wrapper::pointer z){
+        for (int i = 0; i < 2; i++){
+            if (button[i].select(z) == true){
+                return i+1;
+            }
+        }
+        return 0;
+    }
+    
+    void render(SDL_Surface* screen){
+        for (int i = 0; i < 2; i++){
+            button[i].draw(screen);
+        }
+    }
+    
+    short run_menu(SDL_Surface* screen){
+        SDL_Event event;
+        wrapper::pointer mouse;
+        bool done = false;
+        while (!done){
+            while (SDL_PollEvent(&event)){
+                switch (select(mouse)){
+                    // Start game
+                    case 1: return 1; break;
+                    // Quit
+                    case 2: return 2; break;
+                }
+                
+            }
+            render(screen);
+            SDL_Flip(screen);    
+        }
+        return 0;
+    }
+};
 
 
 #endif	/* MENU_HPP */

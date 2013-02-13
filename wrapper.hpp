@@ -10,7 +10,6 @@
 
 #include <string>
 #include <sstream>
-#include <Magick++.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_gfxPrimitives.h"
@@ -20,8 +19,8 @@
 namespace wrapper{
     
     SDL_Surface* load_image(std::string filename){
-        SDL_Surface* loadedimage;
-        SDL_Surface* keyimage;
+        SDL_Surface* loadedimage = NULL;
+        SDL_Surface* keyimage = NULL;
         loadedimage = IMG_Load(filename.c_str());
         
         if (loadedimage != NULL){
@@ -33,14 +32,6 @@ namespace wrapper{
             SDL_SetColorKey(keyimage, SDL_SRCCOLORKEY, colorkey);
         }
         return keyimage;
-    }
-    
-    void rotate_image(std::string file){
-        ;
-    }
-    
-    void crop_image(/*isnsert parameters here*/){
-        ;
     }
     
     short keystroke(SDL_Event event){
@@ -80,6 +71,48 @@ namespace wrapper{
 	SDL_FreeSurface(Message);
 	TTF_CloseFont(font);
 	}
+    
+    class pointer{
+    public:
+        short x,y;
+        bool clicking;
+        pointer(){
+            x = 400;
+            y = 400;
+        }
+        
+        short mouseinput(SDL_Event click){
+	    if (click.type == SDL_MOUSEBUTTONDOWN){
+		    if (click.button.button == SDL_BUTTON_LEFT){
+			    x = click.button.x;
+			    y = click.button.y;
+			    clicking = true;
+			    return 1;
+			    }
+		    else if (click.button.button == SDL_BUTTON_RIGHT){
+			    clicking = true;
+			    return 2;
+			    }
+		    }
+	    else if (click.type == SDL_MOUSEBUTTONUP){
+		    if (click.button.button == SDL_BUTTON_LEFT){
+			    x = 0;
+			    y = 0;
+			    clicking = false;
+			    }
+		    if (click.button.button == SDL_BUTTON_RIGHT){
+			    clicking = false;
+			    }
+		    }
+	    else if (click.type == SDL_MOUSEMOTION){
+		    x = click.button.x;
+		    y = click.button.y;
+		    return 3;
+		    }
+	return 0;
+	}
+        
+    };
     
 }
 

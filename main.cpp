@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "wrapper.hpp"
+#include "menu.hpp"
 
 /*
  * 
@@ -14,17 +15,15 @@
 int main(int argc, char** argv) {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
-    SDL_Event event;
     SDL_Surface* screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
-    bool done = false;
+    opening topmenu;
     
-    while (!done){
-	while(SDL_PollEvent(&event)){
-	    short key = wrapper::keystroke(event);
-	    
-        }
+    if (topmenu.run_menu(screen) == 2){
+        goto end;
     }
     
+    
+    end:
     return 0;
 }
 
