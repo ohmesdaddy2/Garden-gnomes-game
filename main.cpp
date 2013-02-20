@@ -8,6 +8,7 @@
 #include <iostream>
 #include "wrapper.hpp"
 #include "menu.hpp"
+#include "database.hpp"
 
 /*
  * 
