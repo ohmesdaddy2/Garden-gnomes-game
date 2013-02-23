@@ -14,6 +14,7 @@
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_gfxPrimitives.h"
 #include "SDL/SDL_ttf.h"
+#include <boost/ptr_container/ptr_vector.hpp>
 
 
 namespace wrapper{
