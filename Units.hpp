@@ -11,6 +11,7 @@
 #include "enemy.hpp"
 #include "wrapper.hpp"
 #include "directions.hpp"
+#include "ranging.hpp"
 
 template <typename T> class units{
     float x, y;
@@ -18,22 +19,10 @@ template <typename T> class units{
     short health;
     bool special;
     direction pointing;
+    killzone range;
     public:
-    class killzone{
-    public:
-        float x1;
-        float y1;
-        float x2;
-        float y2;
-        
-        killzone(){
-            ;
-        }
-        
-        void set_zone(){
-            
-        }
-    };
+    
+    
     
     float getx(){
         return x;

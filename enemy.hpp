@@ -14,6 +14,21 @@ template <typename bg> class foes{
     bool alive;
     short health;
     short damage;
+    
+    foes(){
+        x = -100;
+        y = -100;
+        alive = false;
+        health = 10;
+        damage = 1;
+    }
+    
+    void place(float a, float b){
+        x = a;
+        y = b;
+        alive = true;
+    }
+    
 };
 
 #endif	/* ENEMY_HPP */
