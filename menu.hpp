@@ -9,6 +9,7 @@
 #define	MENU_HPP
 
 #include "wrapper.hpp"
+#include <iostream>
 
 //clicker is for the menu buttons
 
@@ -40,8 +41,8 @@ public:
     }
     
     void size_button(int a, int b){
-	w = a;
-	h = b;
+	w = x + a;
+	h = y + b;
     }
     
     void label_button(std::string string){
@@ -61,26 +62,72 @@ public:
     }
     
     bool select(wrapper::pointer z){
-        if (z.x > x && z.x < w && z.y > y && z.y < h){
-            return true;
-            
-        }
-        std::cout<<"z.x == "<<z.x<<"\n";
-            std::cout<<"z.y == "<<z.y<<"\n";
+       if (z.x > x && z.x < w && z.y > y && z.y < h){
+	    return true;
+	}
+	else return false;
     }
     
     void draw(SDL_Surface* a){
-	boxRGBA(a, x, y, x + w, y + h, background.r, background.g, background.b, 255);
+	boxRGBA(a, x, y, w, h, background.r, background.g, background.b, 255);
 	wrapper::Draw_Text(a, label_color, label, 15, x + 5, y + 5);
     }
     
 };
 
-class opening{
-    clicker button[2];
+class level{
+    clicker button[4];
+public:
+    level(){
+        button[0].place_button(100, 450);
+        button[0].size_button(500, 60);
+        button[0].label_button("Easy");
+        button[0].set_background(128, 0, 64);
+        button[0].set_label(255, 255, 0);
+        button[1].place_button(100, 540);
+        button[1].size_button(500, 60);
+        button[1].label_button("Medium");
+        button[1].set_background(128, 0, 64);
+        button[1].set_label(255, 255, 0);
+        button[2].place_button(100, 630);
+        button[2].size_button(500, 60);
+        button[2].label_button("Hard");
+        button[2].set_background(128, 0, 64);
+        button[2].set_label(255, 255, 0);
+        button[3].place_button(100, 720);
+        button[3].size_button(500, 60);
+        button[3].label_button("Back");
+        button[3].set_background(128, 0, 64);
+        button[3].set_label(255, 255, 0);
+    }
     
+    short select(wrapper::pointer z){
+        if (button[0].select(z)){
+            return 1;
+        }
+        else if (button[1].select(z)){
+            return 2;
+        }
+        else if (button[2].select(z)){
+            return 3;
+        }
+    }
+    
+    void draw(SDL_Surface* screen){
+        for (int i = 0; i < 4; i++){
+            button[i].draw(screen);
+        }
+    }
+    
+};
+
+class opening{
+    Sint8 selection;
+    clicker button[2];
+    level difficulty;
 public:
     opening(){
+        selection = 0;
         button[0].place_button(100, 500);
         button[0].size_button(60, 30);
         button[0].label_button("Start");
@@ -102,9 +149,16 @@ public:
     }
     
     void render(SDL_Surface* screen){
-        for (int i = 0; i < 2; i++){
-            button[i].draw(screen);
+        boxRGBA(screen, 0, 0, screen->w, screen->h, 0, 0, 0, 255);
+        if (selection == 0){
+            for (int i = 0; i < 2; i++){
+                button[i].draw(screen);
+            }
         }
+        else if (selection == 1){
+            difficulty.draw(screen);
+        }
+        
     }
     
     short run_menu(SDL_Surface* screen){
@@ -113,10 +167,31 @@ public:
         bool done = false;
         while (!done){
             while (SDL_PollEvent(&event)){
+                //std::cout<<"checking events\n";
                 if (mouse.mouseinput(event) == 1){
-                    if (select(mouse) == 2){
-                        done = true;
+                    if (selection == 0){
+                        if (select(mouse) == 1){
+                        selection = 1;
+                        }
+                        if (select(mouse) == 2){
+                            done = true;
+                        }
                     }
+                    if (selection == 1){
+                        if (difficulty.select(mouse) == 1){
+                            return 3;
+                        }
+                        else if (difficulty.select(mouse) == 2){
+                            return 4;
+                        }
+                        else if (difficulty.select(mouse) == 3){
+                            return 5;
+                        }
+                    }
+                    
+                }
+                if (event.type == SDL_QUIT){
+                    done = true;
                 }
             }
             render(screen);

@@ -19,7 +19,10 @@ int main(int argc, char** argv) {
     SDL_Surface* screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE || SDL_SWSURFACE);
     opening topmenu;
     
-    if (topmenu.run_menu(screen) == 2){
+    if (topmenu.run_menu(screen) == 1){
+        
+    }
+    else if (topmenu.run_menu(screen) == 2){
         goto end;
     }
     
