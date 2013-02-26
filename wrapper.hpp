@@ -54,12 +54,15 @@ namespace wrapper{
     
     void Draw_Text(SDL_Surface* a, SDL_Color wordcolor, std::string input, int size, int x, int y){
 	TTF_Font *font = TTF_OpenFont( "FreeMono.ttf", size);
-	std::stringstream stuff;
-	stuff << input;
-	SDL_Surface* Message = TTF_RenderText_Solid( font, stuff.str().c_str(), wordcolor );
-	Draw_Pics(a, Message, x, y);
-	SDL_FreeSurface(Message);
-	TTF_CloseFont(font);
+        if (font != NULL){
+            std::stringstream stuff;
+            stuff << input;
+            SDL_Surface* Message = TTF_RenderText_Solid( font, stuff.str().c_str(), wordcolor );
+            Draw_Pics(a, Message, x, y);
+            SDL_FreeSurface(Message);
+            TTF_CloseFont(font);
+            }
+        else std::cout<<"Font didn't load\n";
 	}
 		
     void Draw_Numbers(SDL_Surface* a, SDL_Color wordcolor, int score, int size, int x, int y){

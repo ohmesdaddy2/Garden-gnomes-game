@@ -16,7 +16,7 @@
 int main(int argc, char** argv) {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
-    SDL_Surface* screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
+    SDL_Surface* screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE || SDL_SWSURFACE);
     opening topmenu;
     
     if (topmenu.run_menu(screen) == 2){

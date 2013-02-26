@@ -13,7 +13,7 @@
 #include "directions.hpp"
 #include "ranging.hpp"
 
-template <typename T> class units{
+template <class T> class units{
     float x, y;
     short damage;
     short health;
@@ -22,7 +22,13 @@ template <typename T> class units{
     killzone range;
     public:
     
-    
+    units(){
+        x = -500;
+        y = -500;
+        damage = 0;
+        health = 0;
+        special = false;
+    }
     
     float getx(){
         return x;
@@ -31,6 +37,12 @@ template <typename T> class units{
     float gety(){
         return y;
     }
+    
+    void place(float a, float b){
+        x = a;
+        y = b;
+        range.place(a, b,);
+        }
     
     void attack(foes a){
         

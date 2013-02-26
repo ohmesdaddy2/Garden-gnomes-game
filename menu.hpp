@@ -63,13 +63,15 @@ public:
     bool select(wrapper::pointer z){
         if (z.x > x && z.x < w && z.y > y && z.y < h){
             return true;
+            
         }
-        else return false;
+        std::cout<<"z.x == "<<z.x<<"\n";
+            std::cout<<"z.y == "<<z.y<<"\n";
     }
     
     void draw(SDL_Surface* a){
-	boxRGBA(a, x, y, w, h, background.r, background.g, background.b, 255);
-	//wrapper::Draw_Text(a, label_color, label, 15, x + 5, y + 5);
+	boxRGBA(a, x, y, x + w, y + h, background.r, background.g, background.b, 255);
+	wrapper::Draw_Text(a, label_color, label, 15, x + 5, y + 5);
     }
     
 };
@@ -90,12 +92,13 @@ public:
     }
     
     short select(wrapper::pointer z){
-        for (int i = 0; i < 2; i++){
-            if (button[i].select(z) == true){
-                return i+1;
-            }
+        if (button[0].select(z) == true){
+            return 1;
         }
-        return 0;
+        else if (button[1].select(z) == true){
+            return 2;
+        }
+        else return 0;
     }
     
     void render(SDL_Surface* screen){
@@ -110,13 +113,11 @@ public:
         bool done = false;
         while (!done){
             while (SDL_PollEvent(&event)){
-                switch (select(mouse)){
-                    // Start game
-                    case 1: return 1; break;
-                    // Quit
-                    case 2: return 2; break;
+                if (mouse.mouseinput(event) == 1){
+                    if (select(mouse) == 2){
+                        done = true;
+                    }
                 }
-                
             }
             render(screen);
             SDL_Flip(screen);    
